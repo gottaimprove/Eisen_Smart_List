@@ -40,7 +40,7 @@ def save_to_global_lst(entry_data_obj):
 
 
 def create_screen(master, mode, obj_to_remove=0, quadrant_to_draw=''):
-    # icons
+    # icons originate from: https://www.kenney.nl/assets/game-icons
     back_btn_img = tk.PhotoImage(file='icons/arrowLeft.png')
     confirm_btn_img = tk.PhotoImage(file='icons/checkmark.png')
     addtask_btn_img = tk.PhotoImage(file='icons/plus.png')
