@@ -2,8 +2,6 @@ import tkinter as tk
 
 
 class EntryData:
-    lst_index = 0
-
     def __init__(self, spcfc, meass, rewrd, impor, urgcy):
         self.spcfc = spcfc
         self.meass = meass
@@ -21,7 +19,6 @@ class EntryData:
                 self.taskinfo += ' to get ' + self.rewrd
 
         thrshld = 5
-        # Urgency - Importance
         if self.urgcy >= thrshld and self.impor >= thrshld:
             self.quadrant = 'hihi'
         elif self.urgcy >= thrshld > self.impor:
@@ -60,6 +57,7 @@ def create_screen(master, mode, obj_to_remove=0, quadrant_to_draw=''):
         add_task_lbl.pack(pady='25')
         summary_btn = tk.Button(MAIN_WIND, command=lambda: create_screen(master, 'open_summary'), image=summary_btn_img)
         summary_btn.pack()
+    
     elif mode == 'add_task':
 
         back_btn = tk.Button(MAIN_WIND, text='Back', command=lambda: create_screen(master, 'main'), image=back_btn_img)
@@ -92,6 +90,7 @@ def create_screen(master, mode, obj_to_remove=0, quadrant_to_draw=''):
                                                                               imp_scl.get(), urg_scl.get())),
                                                  create_screen(master, 'main')])
         confirm_btn.pack(side='top', pady='25')
+    
     elif mode == 'open_summary':
         back_btn = tk.Button(MAIN_WIND, command=lambda: create_screen(master, 'main'), image=back_btn_img)
         back_btn.pack(anchor='w', padx='15', pady='15')
@@ -125,6 +124,7 @@ def create_screen(master, mode, obj_to_remove=0, quadrant_to_draw=''):
     elif mode == 'remove':
         ED_OBJ_LST.remove(obj_to_remove)
         create_screen(master, 'open_summary', 0, quadrant_to_draw)
+    
     else:
         print('wrong mode chosen. going back to main.')
         create_screen(master, 'main')
