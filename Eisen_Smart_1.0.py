@@ -42,6 +42,8 @@ def create_screen(master, mode, obj_to_remove=0, quadrant_to_draw=''):
     confirm_btn_img = tk.PhotoImage(file='icons/checkmark.png')
     addtask_btn_img = tk.PhotoImage(file='icons/plus.png')
     summary_btn_img = tk.PhotoImage(file='icons/menuList.png')
+    save_btn_img = tk.PhotoImage(file='icons/save.png')
+    load_btn_img = tk.PhotoImage(file='icons/target.png')
 
     # Clears window
     for i in master.winfo_children():
