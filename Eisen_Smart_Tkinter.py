@@ -2,6 +2,7 @@ import tkinter as tk
 
 
 class EntryData:
+    # Specific, Measurable, Rewarding, Importance, Urgency
     def __init__(self, spcfc, meass, rewrd, impor, urgcy):
         self.spcfc = spcfc
         self.meass = meass
@@ -28,7 +29,7 @@ class EntryData:
         else:
             self.quadrant = 'lolo'
 
-
+#Global List Containing all EntryData Objects which are added.
 ED_OBJ_LST = []
 
 
