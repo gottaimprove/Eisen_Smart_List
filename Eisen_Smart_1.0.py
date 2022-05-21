@@ -49,14 +49,26 @@ def create_screen(master, mode, obj_to_remove=0, quadrant_to_draw=''):
 
     if mode == 'main':
         add_task_lbl = tk.Label(text='Add new Task')
-        add_task_lbl.pack(side='top', pady='25')
+        add_task_lbl.pack(side='top', pady='20')
         add_btn = tk.Button(MAIN_WIND, command=lambda: create_screen(master, 'add_task'), image=addtask_btn_img)
         add_btn.pack(side='top')
 
-        add_task_lbl = tk.Label(text='Goto Summary')
-        add_task_lbl.pack(pady='25')
+        summary_lbl = tk.Label(text='Goto Summary')
+        summary_lbl.pack(pady='20')
         summary_btn = tk.Button(MAIN_WIND, command=lambda: create_screen(master, 'open_summary'), image=summary_btn_img)
         summary_btn.pack()
+        
+        #Not Implemented
+        save_lbl = tk.Label(text='Save to txt')
+        save_lbl.pack(pady='20')
+        save_btn = tk.Button(MAIN_WIND, command=lambda: create_screen(master, 'save_to_txt'),image=save_btn_img)
+        save_btn.pack()
+
+        #Not Implemented
+        load_lbl = tk.Label(text='Load from txt')
+        load_lbl.pack(pady='20')
+        load_btn = tk.Button(MAIN_WIND, command=lambda: create_screen(master, 'load_from_txt'), image=load_btn_img)
+        load_btn.pack()
     
     elif mode == 'add_task':
 
