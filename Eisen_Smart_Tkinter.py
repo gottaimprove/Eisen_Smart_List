@@ -14,6 +14,7 @@ class EntryData:
         self.taskinfo = ''
         self.quadrant = ''
 
+        #Creates string wich contains goal sentence
         if self.spcfc != '':
             self.taskinfo += 'I want to ' + self.spcfc
             if self.meass != '':
@@ -34,9 +35,6 @@ class EntryData:
 #Global List Containing all EntryData Objects which are added.
 ED_OBJ_LST = []
 
-def append_to_global_lst(entry_data_obj):
-    ED_OBJ_LST.append(entry_data_obj)
-
 def create_screen(master, mode, obj_to_remove=0, quadrant_to_draw=''):
     # icons originate from: https://www.kenney.nl/assets/game-icons
     back_btn_img = tk.PhotoImage(file='icons/arrowLeft.png')
@@ -46,9 +44,10 @@ def create_screen(master, mode, obj_to_remove=0, quadrant_to_draw=''):
     save_btn_img = tk.PhotoImage(file='icons/save.png')
     load_btn_img = tk.PhotoImage(file='icons/target.png')
 
+    #Used to Edit ED_OBJ_LST in this scope
     global ED_OBJ_LST
 
-    # Clears window
+    # Clears all widgets of master window
     for i in master.winfo_children():
         i.destroy()
 
@@ -73,6 +72,7 @@ def create_screen(master, mode, obj_to_remove=0, quadrant_to_draw=''):
         load_btn = tk.Button(MAIN_WIND, command=lambda: create_screen(master, 'load_from_txt'), image=load_btn_img)
         load_btn.pack()
     elif mode == 'save_to_txt':
+        #uses pickle to save Global ED_OBJ_LST to file in saves/save.pkl
         out_file = open('saves/save.pkl','wb')
         pk.dump(ED_OBJ_LST,out_file)
         create_screen(master, 'main')
@@ -80,6 +80,7 @@ def create_screen(master, mode, obj_to_remove=0, quadrant_to_draw=''):
     elif mode == 'load_from_txt':
         #checks if size has content
         if os.path.getsize('saves/save.pkl') > 0:
+            # uses pickle to initialize Global ED_OBJ_LST with objects of saves/save.pkl
             in_file = open('saves/save.pkl', 'rb')
             ED_OBJ_LST = pk.load(in_file)
 
@@ -110,11 +111,11 @@ def create_screen(master, mode, obj_to_remove=0, quadrant_to_draw=''):
         imp_scl = tk.Scale(label='Enter Importance: ', orient='horizontal', from_=0, to=10)
         imp_scl.pack()
 
+        #when confirm button is clicked. A new EntryData Object is Created and appended to Global ED_OBJ_LST
         confirm_btn = tk.Button(MAIN_WIND, text='confirm', image=confirm_btn_img,
-                                command=lambda: [append_to_global_lst(EntryData(spcfc_inp.get(),
-                                                                              meass_inp.get(), rwrd_inp.get(),
-                                                                              imp_scl.get(), urg_scl.get())),
-                                                 create_screen(master, 'main')])
+                                command=lambda: [ED_OBJ_LST.append(spcfc_inp.get(),meass_inp.get(),
+                                                                   rwrd_inp.get(),imp_scl.get(),
+                                                                   urg_scl.get()),create_screen(master, 'main')])
         confirm_btn.pack(side='top', pady='25')
     
     elif mode == 'open_summary':
@@ -137,9 +138,11 @@ def create_screen(master, mode, obj_to_remove=0, quadrant_to_draw=''):
                                   command=lambda: create_screen(master, 'open_summary', 0, 'lolo'))
         draw_lolo_btn.pack()
 
+        #For space of one row
         spacer_lbl = tk.Label(MAIN_WIND)
         spacer_lbl.pack(pady='15')
 
+        #checks every obj in ED_OBJ_LST. If Quadrant of Obj Equals Quadrant of create_screen parameter quadrant_to_draw draw obj
         for i in ED_OBJ_LST:
             if i.quadrant == quadrant_to_draw:
                 ed_obj_lbl = tk.Label(text=i.taskinfo)
@@ -147,10 +150,12 @@ def create_screen(master, mode, obj_to_remove=0, quadrant_to_draw=''):
                 x = tk.Button(MAIN_WIND, text='X', command=lambda i=i: create_screen(master, 'remove', i, i.quadrant))
                 x.pack()
 
+    #removes obj_to_remove from global ED_OBJ_LST
     elif mode == 'remove':
         ED_OBJ_LST.remove(obj_to_remove)
         create_screen(master, 'open_summary', 0, quadrant_to_draw)
-    
+
+    #if no appropriate mode was chosen it's main
     else:
         print('wrong mode chosen. going back to main.')
         create_screen(master, 'main')
