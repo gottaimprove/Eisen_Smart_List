@@ -113,9 +113,9 @@ def create_screen(master, mode, obj_to_remove=0, quadrant_to_draw=''):
 
         #when confirm button is clicked. A new EntryData Object is Created and appended to Global ED_OBJ_LST
         confirm_btn = tk.Button(MAIN_WIND, text='confirm', image=confirm_btn_img,
-                                command=lambda: [ED_OBJ_LST.append(spcfc_inp.get(),meass_inp.get(),
+                                command=lambda: [ED_OBJ_LST.append(EntryData(spcfc_inp.get(),meass_inp.get(),
                                                                    rwrd_inp.get(),imp_scl.get(),
-                                                                   urg_scl.get()),create_screen(master, 'main')])
+                                                                   urg_scl.get())),create_screen(master, 'main')])
         confirm_btn.pack(side='top', pady='25')
     
     elif mode == 'open_summary':
