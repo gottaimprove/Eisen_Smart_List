@@ -78,7 +78,7 @@ def create_screen(master, mode, obj_to_remove=0, quadrant_to_draw=''):
         create_screen(master, 'main')
 
     elif mode == 'load_from_txt':
-        #checks if size has content
+        #checks if .pkl file has content
         if os.path.getsize('saves/save.pkl') > 0:
             # uses pickle to initialize Global ED_OBJ_LST with objects of saves/save.pkl
             in_file = open('saves/save.pkl', 'rb')
