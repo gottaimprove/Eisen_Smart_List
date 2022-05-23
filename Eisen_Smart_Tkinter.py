@@ -1,4 +1,5 @@
 import tkinter as tk
+import pickle as pk
 
 
 class EntryData:
@@ -32,10 +33,8 @@ class EntryData:
 #Global List Containing all EntryData Objects which are added.
 ED_OBJ_LST = []
 
-
-def save_to_global_lst(entry_data_obj):
+def append_to_global_lst(entry_data_obj):
     ED_OBJ_LST.append(entry_data_obj)
-
 
 def create_screen(master, mode, obj_to_remove=0, quadrant_to_draw=''):
     # icons originate from: https://www.kenney.nl/assets/game-icons
@@ -45,6 +44,8 @@ def create_screen(master, mode, obj_to_remove=0, quadrant_to_draw=''):
     summary_btn_img = tk.PhotoImage(file='icons/menuList.png')
     save_btn_img = tk.PhotoImage(file='icons/save.png')
     load_btn_img = tk.PhotoImage(file='icons/target.png')
+
+    global ED_OBJ_LST
 
     # Clears window
     for i in master.winfo_children():
@@ -60,21 +61,27 @@ def create_screen(master, mode, obj_to_remove=0, quadrant_to_draw=''):
         summary_lbl.pack(pady='20')
         summary_btn = tk.Button(MAIN_WIND, command=lambda: create_screen(master, 'open_summary'), image=summary_btn_img)
         summary_btn.pack()
-        
-        #Not Implemented
+
         save_lbl = tk.Label(text='Save to txt')
         save_lbl.pack(pady='20')
         save_btn = tk.Button(MAIN_WIND, command=lambda: create_screen(master, 'save_to_txt'),image=save_btn_img)
         save_btn.pack()
 
-        #Not Implemented
         load_lbl = tk.Label(text='Load from txt')
         load_lbl.pack(pady='20')
         load_btn = tk.Button(MAIN_WIND, command=lambda: create_screen(master, 'load_from_txt'), image=load_btn_img)
         load_btn.pack()
-    
-    elif mode == 'add_task':
+    elif mode == 'save_to_txt':
+        out_file = open('saves/save.pkl','wb')
+        pk.dump(ED_OBJ_LST,out_file)
+        create_screen(master, 'main')
 
+    elif mode == 'load_from_txt':
+        in_file = open('saves/save.pkl','rb')
+        ED_OBJ_LST = pk.load(in_file)
+        create_screen(master, 'main')
+
+    elif mode == 'add_task':
         back_btn = tk.Button(MAIN_WIND, text='Back', command=lambda: create_screen(master, 'main'), image=back_btn_img)
         back_btn.pack(anchor='w', padx='15', pady='15')
 
@@ -100,7 +107,7 @@ def create_screen(master, mode, obj_to_remove=0, quadrant_to_draw=''):
         imp_scl.pack()
 
         confirm_btn = tk.Button(MAIN_WIND, text='confirm', image=confirm_btn_img,
-                                command=lambda: [save_to_global_lst(EntryData(spcfc_inp.get(),
+                                command=lambda: [append_to_global_lst(EntryData(spcfc_inp.get(),
                                                                               meass_inp.get(), rwrd_inp.get(),
                                                                               imp_scl.get(), urg_scl.get())),
                                                  create_screen(master, 'main')])
@@ -151,5 +158,5 @@ MAIN_WIND = tk.Tk()
 MAIN_WIND.geometry('500x500')
 MAIN_WIND.minsize(500, 500)
 MAIN_WIND.maxsize(500, 1080)
-MAIN_WIND.title('Eisen Smart 1.0')
+MAIN_WIND.title('Eisen Smart')
 create_screen(MAIN_WIND, 'main')
